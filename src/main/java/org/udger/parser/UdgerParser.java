@@ -21,9 +21,8 @@ import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.google.re2j.Pattern;
+import com.google.re2j.Matcher;
 /**
  * Main parser's class handles parser requests for user agent or IP.
  */

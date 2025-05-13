@@ -10,10 +10,10 @@ package org.udger.parser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 public class WordDetector implements Serializable {
 
@@ -61,9 +61,8 @@ public class WordDetector implements Serializable {
         }
     }
 
-    public Set<Integer> findWords(String text) {
-
-        Set<Integer> ret = new HashSet<>();
+    public IntSet findWords(String text) {
+        IntSet ret = new IntOpenHashSet();
 
         final String s = text.toLowerCase();
         final int dimension = 'z' - 'a';

@@ -18,7 +18,7 @@ public class UdgerPerformanceTest {
     private static void createPool() {
         POOL = new UdgerParser[10];
         for (int i=0; i<=9; i++) {
-            POOL[i] = new UdgerParser(new UdgerParser.ParserDbData("udgerdb_v4_" + i + ".dat"));
+            POOL[i] = new UdgerParser(new UdgerParser.ParserDbData("udgerdb_v4_.dat"), false, 0);
         }
     }
 
@@ -35,24 +35,25 @@ public class UdgerPerformanceTest {
         JsonReader jsonReader = javax.json.Json.createReader(is);
         jsonArray = jsonReader.readArray();
         UdgerParser.ParserDbData parserDbData = new UdgerParser.ParserDbData("udgerdb_v4.dat");
+        UdgerParser up = new UdgerParser(parserDbData, false, 10000);
         for (int i=0; i<10; i++) {
             System.out.println("### Test : " + (i+1));
-            testSerial(parserDbData);
+            testSerial(up);
+            //testParallel();
         }
     }
 
-    private static void testSerial(ParserDbData parserDbData) {
-        UdgerParser up = null;
+    private static void testSerial(UdgerParser up) {
         try {
-            up = new UdgerParser(parserDbData);
             long tm = 0;
             for (int j=0; j<100; j++) {
                 for (int i=0; i < jsonArray.size(); i++) {
                     JsonObject jar = jsonArray.getJsonObject(i);
-                    String query = jar.getJsonObject("test").getString("teststring");
+                    String query = jar.getJsonObject("test").getString("User-Agent");
                     try {
                         long prev = System.nanoTime();
                         UdgerUaResult ret = up.parseUa(query);
+                        // System.out.println(ret);
                         tm += System.nanoTime() - prev;
                     } catch (SQLException e) {
                         e.printStackTrace();
